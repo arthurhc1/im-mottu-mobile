@@ -32,7 +32,7 @@ Aplicativo Flutter que consome a [PokeAPI](https://pokeapi.co) para exibir uma l
 ## **Arquitetura:**
 
    O projeto utiliza uma arquitetura MVC(Model, View, Controller):
-   . models/: Contém as classes como Pokemon e PokemonDetail;
-   . views/: Telas visuais como HomeScreen, DetailScreen e widgets;
-   . controllers/: requisições HTTP(PokemonController, PokemonDetailController).
+   - models/: Contém as classes como Pokemon e PokemonDetail;
+   - views/: Telas visuais como HomeScreen, DetailScreen e widgets;
+   - controllers/: requisições HTTP(PokemonController, PokemonDetailController).
    
