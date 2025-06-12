@@ -13,20 +13,75 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PokemonController _controller = PokemonController();
+  final TextEditingController _searchController = TextEditingController();
   late Future<List<Pokemon>> _pokeList;
+  List<Pokemon> _allPokemons = [];
+  List<Pokemon> _filteredPokemons = [];
+  bool _showFilter = false;
 
   @override
   void initState() {
     super.initState();
-    _pokeList = _controller.fetchPokemons();
+    _pokeList = _controller.fetchPokemons().then((list) {
+      _allPokemons = list;
+      _filteredPokemons = list;
+      return list;
+    });
+  }
+
+  void _filterPokemons(String query) {
+    setState(() {
+      _filteredPokemons = _allPokemons.where((pokemon) {
+        return pokemon.name.toLowerCase().contains(query.toLowerCase());
+      }).toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('PokeAPI - Mottu')),
+      appBar: AppBar(
+        title: const Text('PokeAPI - Mottu'),
+        actions: [
+          IconButton(
+            icon: Icon(_showFilter ? Icons.close : Icons.search),
+            onPressed: () {
+              setState(() {
+                _showFilter = !_showFilter;
+                if (!_showFilter) {
+                  _searchController.clear();
+                  _filteredPokemons = _allPokemons;
+                }
+              });
+            },
+          ),
+        ],
+      ),
       body: Column(
         children: [
+          Visibility(
+            visible: _showFilter,
+            maintainAnimation: true,
+            maintainState: true,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: _filterPokemons,
+                    decoration: InputDecoration(
+                      hintText: 'Buscar Pokémon...',
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: FutureBuilder<List<Pokemon>>(
               future: _pokeList,
@@ -36,11 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Erro: ${snapshot.error}'));
                 } else if (snapshot.hasData) {
-                  final pokemons = snapshot.data!;
                   return ListView.builder(
-                    itemCount: pokemons.length,
+                    itemCount: _filteredPokemons.length,
                     itemBuilder: (context, index) {
-                      final pokemon = pokemons[index];
+                      final pokemon = _filteredPokemons[index];
                       return PokeCard(
                         pokemon: pokemon,
                         onTap: () {
