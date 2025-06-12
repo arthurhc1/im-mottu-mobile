@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'PokéAPI Flutter',
+      title: 'PokeAPI - Mottu',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),

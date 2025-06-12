@@ -34,17 +34,54 @@ class _DetailScreenState extends State<DetailScreen> {
           } else if (snapshot.hasData) {
             final p = snapshot.data!;
             return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  Image.network(p.imageUrl, height: 200),
-                  const SizedBox(height: 16),
-                  Text('Nome: ${p.name.toUpperCase()}',
-                      style: const TextStyle(fontSize: 20)),
-                  const SizedBox(height: 8),
-                  Text('Altura: ${p.height / 10} m'),
-                  Text('Peso: ${p.weight / 10} kg'),
-                ],
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.network(p.imageUrl, height: 350),
+                      const SizedBox(height: 16),
+                      Text('Nome: ${p.name.toUpperCase()}',
+                          style: const TextStyle(fontSize: 20)),
+                      const SizedBox(height: 8),
+                      Text('Altura: ${p.height / 10} m'),
+                      Text('Peso: ${p.weight / 10} kg'),
+                      const SizedBox(height: 16),
+                      const Text(
+                        'Tipos:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      Wrap(
+                        spacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: p.types.map((type) {
+                          return Chip(
+                            label: Text(type),
+                            backgroundColor: Colors.lightBlueAccent,
+                          );
+                        }).toList(),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Habilidades:',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 4),
+                      Wrap(
+                        spacing: 8,
+                        alignment: WrapAlignment.center,
+                        children: p.abilities.map((ability) {
+                          return Chip(
+                            label: Text(ability, style: const TextStyle(color: Colors.white)),
+                            backgroundColor: Colors.deepPurple,
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             );
           } else {
