@@ -23,10 +23,12 @@ Aplicativo Flutter que consome a [PokeAPI](https://pokeapi.co) para exibir uma l
 
 2. **Instalar as dependências:**
 
+   ```bash
    flutter pub get
    
 3. **Rodar o projeto:**
 
+   ```bash
    flutter run
 
 ## **Arquitetura:**
