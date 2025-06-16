@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pokeapp_mottu/models/pokemon.dart';
 import 'package:pokeapp_mottu/controllers/pokemon_controller.dart';
 import 'package:pokeapp_mottu/views/detail_screen.dart';
+import '../controllers/pokemon_detail_controller.dart';
 import 'widgets/poke_card.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,8 +26,18 @@ class _HomeScreenState extends State<HomeScreen> {
     _pokeList = _controller.fetchPokemons().then((list) {
       _allPokemons = list;
       _filteredPokemons = list;
+
+      for (var pokemon in list) {
+        _preloadDetail(pokemon.name);
+      }
+
       return list;
     });
+  }
+
+  void _preloadDetail(String name) async {
+    final detailController = PokemonDetailController();
+      await detailController.fetchDetail(name: name);
   }
 
   void _filterPokemons(String query) {

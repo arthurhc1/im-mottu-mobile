@@ -16,14 +16,15 @@ class PokemonDetail {
   });
 
   factory PokemonDetail.fromJson(Map<String, dynamic> json) {
+    final id = json['id'].toString();
+
     return PokemonDetail(
       name: json['name'],
       height: json['height'],
       weight: json['weight'],
       types: List<String>.from(json['types'].map((t) => t['type']['name'])),
       abilities: List<String>.from(json['abilities'].map((a) => a['ability']['name'])),
-      imageUrl: json['sprites']['other']['official-artwork']['front_default'] ??
-          json['sprites']['front_default'],
+      imageUrl: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png',
     );
   }
 }
