@@ -16,7 +16,7 @@ class PokemonDetailController {
 
     _cacheOptions = CacheOptions(
       store: HiveCacheStore(dir.path),
-      policy: CachePolicy.request,
+      policy: CachePolicy.refresh,
       hitCacheOnErrorExcept: [401, 403],
       maxStale: const Duration(days: 1),
       priority: CachePriority.normal,
